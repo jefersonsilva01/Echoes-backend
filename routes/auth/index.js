@@ -3,6 +3,12 @@ const User = require("../../models/User.model");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
+const isLoggedOut = (req, res, next) => {
+  if (req.session.currentUser) res.redirect("/private/orders");
+
+  next();
+}
+
 router.post("/signup", (req, res, next) => {
   const { username, email, password, confirmPassword } = req.body;
 
@@ -13,7 +19,7 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
-  if (password.lenght < 8) {
+  if (password.length < 8) {
     res.status(400).json({
       message: "Please make your password at last 8 characters long for security purpose."
     });
@@ -63,7 +69,7 @@ router.post("/signup", (req, res, next) => {
       req.login(newUser, (err) => {
         if (err) {
           res.status(500).json({
-            message: 'Login after signup went bad.'
+            message: 'Signin after signup went bad.'
           });
           return;
         }
@@ -75,6 +81,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/signin", (req, res, next) => {
+
   passport.authenticate('local', (err, theUser, failureDetails) => {
     if (err) {
       res.status(500).json({
@@ -102,9 +109,32 @@ router.post("/signin", (req, res, next) => {
   })(req, res, next);
 });
 
+router.get("/verify", (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.status(200).json(req.user);
+    return;
+  }
+  res.status(403).json({ message: "Unauthorized" });
+});
+
 router.post("/signout", (req, res, next) => {
   req.logout(err => { if (err) return next(err) });
   res.status(200).json({ message: 'Log out succes!' });
 });
 
-module.exports = router;
+router.get("/google", passport.authenticate("google", {
+  scope: [
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
+}));
+
+router.get("/google/callback", isLoggedOut,
+  passport.authenticate("google", { failureRedirect: "/auth/signup" }),
+  (req, res) => {
+    req.session.currentUser = req.user.toObject();
+    res.redirect("/private/orders")
+  }
+);
+
+module.exports = router;  

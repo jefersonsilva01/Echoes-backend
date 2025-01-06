@@ -19,26 +19,31 @@ passport.deserializeUser((userIdFromSession, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((email, password, next) => {
-  User.findOne({ email }, (err, foundUser) => {
-    if (err) {
-      next(err);
-      return;
-    }
+passport.use(new LocalStrategy(
+  { usernameField: 'email', passwordField: 'password' },
+  (email, password, next) => {
+    console.log("Email recebido:", email);
+    console.log("Password recebido:", password);
 
-    if (!foundUser) {
-      next(null, false, { message: 'Incorrect e-mail.' });
-      return;
-    }
+    User.findOne({ email }, (err, foundUser) => {
+      if (err) {
+        next(err);
+        return;
+      }
 
-    if (!bcrypt.compareSync(password, foundUser.password)) {
-      next(null, false, { message: 'Incorrect password.' });
-      return;
-    }
+      if (!foundUser) {
+        next(null, false, { message: 'Incorrect e-mail.' });
+        return;
+      }
 
-    next(null, foundUser);
-  });
-}));
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        next(null, false, { message: 'Incorrect password.' });
+        return;
+      }
+
+      next(null, foundUser);
+    });
+  }));
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,

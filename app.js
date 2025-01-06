@@ -4,12 +4,16 @@ const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const passport = require('passport');
 const flash = require('connect-flash');
+const bodyParser = require('body-parser');
 
 require("./config/passport");
 require("./db");
 
 const app = express();
 require("./config")(app);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
