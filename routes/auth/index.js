@@ -56,7 +56,7 @@ router.post("/signup", (req, res, next) => {
       username,
       email,
       password: hashPass,
-      imgPath: "./assets/avatar-cover.jpg",
+      imgPath: "./assets/avatar-cover.png",
       imgName: "Avatar"
     });
 

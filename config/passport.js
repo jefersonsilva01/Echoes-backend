@@ -67,7 +67,7 @@ passport.use(new GoogleStrategy({
         {
           username: profile.displayName,
           googleID: profile.id,
-          imgPath: "./assets/avatar-cover.jpg",
+          imgPath: "./assets/avatar-cover.png",
           imgName: 'Avatar',
           email: profile._json.email
         }
