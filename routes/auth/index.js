@@ -1,10 +1,11 @@
+require("dotenv").config();
 const router = require("express").Router();
 const User = require("../../models/User.model");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
 const isLoggedOut = (req, res, next) => {
-  if (req.session.currentUser) res.redirect("/private/orders");
+  if (req.session.currentUser) res.redirect("/signin");
 
   next();
 }
@@ -45,6 +46,7 @@ router.post("/signup", (req, res, next) => {
       res.status(400).json({
         message: "E-mail taken. Choose another one."
       });
+      return;
     }
 
     const salt = bcrypt.genSaltSync(10);
@@ -81,7 +83,6 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/signin", (req, res, next) => {
-
   passport.authenticate('local', (err, theUser, failureDetails) => {
     if (err) {
       res.status(500).json({
@@ -110,11 +111,11 @@ router.post("/signin", (req, res, next) => {
 });
 
 router.get("/verify", (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.status(200).json(req.user);
-    return;
+  if (req.isAuthenticated()) {  // Verifica se o `req.user` está definido
+    res.status(200).json(req.user);  // Retorna os dados do usuário
+  } else {
+    res.status(403).json({ message: "Unauthorized" });  // Usuário não autenticado
   }
-  res.status(403).json({ message: "Unauthorized" });
 });
 
 router.post("/signout", (req, res, next) => {
@@ -130,10 +131,14 @@ router.get("/google", passport.authenticate("google", {
 }));
 
 router.get("/google/callback", isLoggedOut,
-  passport.authenticate("google", { failureRedirect: "/auth/signup" }),
+  passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
-    req.session.currentUser = req.user.toObject();
-    res.redirect("/private/orders")
+    if (req.user) {
+      req.session.currentUser = req.user.toObject();
+      res.redirect(`http://localhost:3000?user=${JSON.stringify(req.user)}`);
+    } else {
+      res.redirect("/signin")
+    }
   }
 );
 

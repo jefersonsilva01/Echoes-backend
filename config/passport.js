@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const User = require('../models/User.model');
 const socialLogin = require("../models/SocialLogin.model");
 const LocalStrategy = require('passport-local').Strategy;
@@ -22,9 +24,6 @@ passport.deserializeUser((userIdFromSession, cb) => {
 passport.use(new LocalStrategy(
   { usernameField: 'email', passwordField: 'password' },
   (email, password, next) => {
-    console.log("Email recebido:", email);
-    console.log("Password recebido:", password);
-
     User.findOne({ email }, (err, foundUser) => {
       if (err) {
         next(err);
@@ -48,7 +47,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  // callbackURL: "https://echoes-backend.vercel.app/auth/google/callback",
+  // callbackURL: "https://echoes-backend.vercel.app/auth/google/callback" || http://localhost:5000/auth/google/callback,
   callbackURL: "http://localhost:5000/auth/google/callback",
   passReqToCallback: true
 }, (request, accessToken, refreshToken, profile, done) => {
@@ -68,7 +67,6 @@ passport.use(new GoogleStrategy({
         {
           username: profile.displayName,
           googleID: profile.id,
-          status: "Active",
           imgPath: "./assets/avatar-cover.jpg",
           imgName: 'Avatar',
           email: profile._json.email

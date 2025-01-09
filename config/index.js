@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -7,7 +9,7 @@ const cors = require("cors");
 const FRONTEND_URL = "http://localhost:3000";
 
 module.exports = (app) => {
-  app.set("trust proxy 1");
+  app.set("trust proxy", 1);
 
   app.use(
     cors({

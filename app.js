@@ -15,17 +15,20 @@ require("./config")(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "secret key",
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({
-      // mongoUrl: process.env.MONGO_URI_DEPLOY
-      mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/echoes",
-    })
-  })
-);
+app.use(session({
+  secret: process.env.SESSION_SECRET || "secret key",
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({
+    // mongoUrl: process.env.MONGO_URI_DEPLOY
+    mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/echoes",
+  }),
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
