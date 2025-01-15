@@ -20,7 +20,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    // mongoUrl: process.env.MONGO_URI_DEPLOY
     mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/echoes",
   }),
   cookie: {
@@ -37,10 +36,12 @@ app.use(flash());
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth/index');
+const apiRouter = require('./routes/api');
 // const usersRouter = require('./routes/users');
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/api', apiRouter);
 // app.use('/users', usersRouter);
 
 require("./error-handling")(app);

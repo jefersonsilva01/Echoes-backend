@@ -135,7 +135,7 @@ router.get("/google/callback", isLoggedOut,
   (req, res) => {
     if (req.user) {
       req.session.currentUser = req.user.toObject();
-      res.redirect(`http://localhost:3000?user=${JSON.stringify(req.user)}`);
+      res.redirect(`${process.env.ORIGIN}?user=${JSON.stringify(req.user)}`);
     } else {
       res.redirect("/signin")
     }

@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const User = require('../models/User.model');
-const socialLogin = require("../models/SocialLogin.model");
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcryptjs');
@@ -47,8 +46,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  // callbackURL: "https://echoes-backend.vercel.app/auth/google/callback" || http://localhost:5000/auth/google/callback,
-  callbackURL: "http://localhost:5000/auth/google/callback",
+  callbackURL: process.env.CALLBACK_URL || "http://localhost:5000/auth/google/callback",
   passReqToCallback: true
 }, (request, accessToken, refreshToken, profile, done) => {
   if (profile.error) {
@@ -57,13 +55,14 @@ passport.use(new GoogleStrategy({
     return;
   }
 
-  socialLogin.findOne({ googleID: profile.id })
+  User.findOne({ googleID: profile.email })
     .then(user => {
+      console.log("user:", user);
       if (user) {
         return done(null, user);
       }
 
-      socialLogin.create(
+      User.create(
         {
           username: profile.displayName,
           googleID: profile.id,
