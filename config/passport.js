@@ -55,20 +55,37 @@ passport.use(new GoogleStrategy({
     return;
   }
 
-  User.findOne({ googleID: profile.email })
+  User.findOne({ email: profile._json.email })
     .then(user => {
-      console.log("user:", user);
-      if (user) {
-        return done(null, user);
+      if (user) return done(null, user);
+
+      const chars = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+        '@', '#', '$', '%', '&', '*', '/', '\\', '.',
+        'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e',
+        'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j',
+        'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o',
+        'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't',
+        'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y',
+        'Z', 'z'
+      ]
+
+      let password = '';
+      while (password.length < 8) {
+        password += chars[Math.floor(Math.random() * chars.length)];
       }
+
+      const salt = bcrypt.genSaltSync(10);
+      const hashPass = bcrypt.hashSync(password, salt);
 
       User.create(
         {
-          username: profile.displayName,
           googleID: profile.id,
+          username: profile.displayName,
+          email: profile._json.email,
+          password: hashPass,
           imgPath: "./assets/avatar-cover.png",
-          imgName: 'Avatar',
-          email: profile._json.email
+          imgName: 'Avatar'
         }
       )
         .then(newUser => {
