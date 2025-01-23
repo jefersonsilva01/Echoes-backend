@@ -49,18 +49,18 @@ router.delete("/user/delete", (req, res, next) => {
 router.post("/new-article", (req, res, next) => {
   const article = { ...req.body }, { id } = req.query;
 
-  article.cover ? "" : article.cover = "https://picsum.photos/650/178"
+  article.cover ? "" : article.cover = "https://picsum.photos/"
 
   if (!article.title || !article.description || !article.paragraph) {
     res.status(400).json({
-      message: "Provide Title, Descriptio and Paragraph"
+      message: "Provide Title, Description and Paragraph"
     });
     return;
   }
 
   const newArticle = new Article({
+    userId: id,
     article,
-    userId: id
   });
 
   newArticle.save(err => {
@@ -73,6 +73,23 @@ router.post("/new-article", (req, res, next) => {
 
     res.status(200).json(newArticle);
   });
+});
+
+router.get("/my-articles", (req, res, next) => {
+  const { id } = req.query;
+
+  if (!id) {
+    res.status(400).json({
+      message: "User not found"
+    });
+    return;
+  }
+
+  Article.find({ userId: id })
+    .then(articles => {
+      articles.length > 0 ? res.json(articles) : null;
+    })
+    .catch(err => res.json(err));
 });
 
 module.exports = router;

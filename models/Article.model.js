@@ -7,7 +7,19 @@ const articleSchema = new Schema(
       required: true,
       trim: true
     },
-    userId: { type: String, required: true },
+    username: String,
+    likes: {
+      type: Number,
+      default: 0
+    },
+    bookmarks: {
+      type: Number,
+      default: 0
+    },
+    userId: {
+      type: String,
+      required: true
+    },
   },
   {
     timestamps: true
