@@ -37,12 +37,10 @@ app.use(flash());
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth/index');
 const apiRouter = require('./routes/api');
-// const usersRouter = require('./routes/users');
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/api', apiRouter);
-// app.use('/users', usersRouter);
 
 require("./error-handling")(app);
 
