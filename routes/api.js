@@ -92,4 +92,12 @@ router.get("/my-articles", (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.delete("/article/delete", (req, res, next) => {
+  const { id } = req.query;
+
+  Article.findByIdAndDelete({ _id: id })
+    .then(response => res.json(response))
+    .catch(error => console.log(error));
+})
+
 module.exports = router;
