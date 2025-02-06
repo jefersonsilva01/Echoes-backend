@@ -112,7 +112,7 @@ router.post("/signin", (req, res, next) => {
 
 router.get("/verify", (req, res, next) => {
   if (req.isAuthenticated()) {  // Verifica se o `req.user` está definido
-    res.status(200).json(req.user);  // Retorna os dados do usuário
+    res.status(200).json(req.user);
   } else {
     res.status(403).json({ message: "Unauthorized" });  // Usuário não autenticado
   }

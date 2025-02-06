@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const User = require("../models/User.model");
 const Article = require("../models/Article.model");
+const Bookmark = require("../models/Bookmark.model");
 const bcrypt = require("bcryptjs");
 const uploader = require("../config/cloudinary.config");
 const router = express.Router();
@@ -88,7 +89,7 @@ router.get("/my-articles", (req, res, next) => {
 
   if (!id) {
     res.status(400).json({
-      message: "User not found"
+      message: "Articles not found"
     });
     return;
   }
@@ -102,8 +103,6 @@ router.get("/my-articles", (req, res, next) => {
 
 router.put("/update-article", (req, res, next) => {
   const update = { ...req.body }, { id } = req.query
-
-  console.log(id);
 
   Article.findByIdAndUpdate(id,
     {
@@ -121,6 +120,84 @@ router.delete("/article/delete", (req, res, next) => {
   const { id } = req.query;
 
   Article.findByIdAndDelete({ _id: id })
+    .then(response => res.json(response))
+    .catch(error => console.log(error));
+})
+
+router.post("/new-bookmark", (req, res, next) => {
+  const { name } = req.body, { id } = req.query;
+
+  if (!name) {
+    res.status(400).json({
+      message: "Provide an name"
+    });
+    return;
+  }
+
+  const newBookmark = new Bookmark({
+    userId: id,
+    name,
+  });
+
+  newBookmark.save()
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      console.error('Error fatching image or save article: ', err);
+      res.status(500).json({
+        message: 'An error occured',
+        error: err.message
+      });
+    });
+});
+
+router.get("/bookmarks", (req, res, next) => {
+  const { id } = req.query;
+
+  if (!id) {
+    res.status(400).json({
+      message: "Not found"
+    });
+    return;
+  }
+
+  Bookmark.find({ userId: id })
+    .then(bookmarks => {
+      bookmarks.length > 0 ? res.json(bookmarks) : res.json([]);
+    })
+    .catch(err => res.json(err));
+
+})
+
+router.put('/update-bookmark', (req, res, next) => {
+  const { name } = req.body, { id } = req.query;
+
+  Bookmark.findByIdAndUpdate(id,
+    {
+      $set: { name }
+    },
+    {
+      new: true, runValidators: true
+    }
+  )
+    .then(response => res.json(response))
+    .catch(error => res.json(error));
+})
+
+router.delete("/bookmark/delete", (req, res, next) => {
+  const { id } = req.query;
+
+  console.log(id);
+
+  if (!id) {
+    res.status(400).json({
+      message: "Bad request!"
+    });
+    return;
+  }
+
+  Bookmark.findByIdAndDelete({ _id: id })
     .then(response => res.json(response))
     .catch(error => console.log(error));
 })
