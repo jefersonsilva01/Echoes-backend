@@ -17,18 +17,31 @@ router.put('/user', (req, res, next) => {
     const hashPass = bcrypt.hashSync(update.password, salt);
 
     update.password = hashPass;
+
+    User.findByIdAndUpdate(id,
+      {
+        $set: { ...update }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
   }
 
-  User.findByIdAndUpdate(id,
-    {
-      $set: { ...update }
-    },
-    {
-      new: true, runValidators: true
-    }
-  )
-    .then(response => res.json(response))
-    .catch(error => res.json(error));
+  if (update.bookmarks && update.add) {
+    User.findByIdAndUpdate(id,
+      {
+        $addToSet: { bookmarks: update.bookmarks }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  }
 });
 
 router.post("/upload", uploader.single("image"), (req, res, next) => {
@@ -46,7 +59,7 @@ router.delete("/user/delete", (req, res, next) => {
   User.findByIdAndDelete({ _id: id })
     .then(response => res.json(response))
     .catch(error => console.log(error));
-})
+});
 
 router.post("/new-article", async (req, res, next) => {
   const article = { ...req.body }, { id } = req.query;
@@ -104,16 +117,35 @@ router.get("/my-articles", (req, res, next) => {
 router.put("/update-article", (req, res, next) => {
   const update = { ...req.body }, { id } = req.query
 
-  Article.findByIdAndUpdate(id,
-    {
-      $set: { article: update }
-    },
-    {
-      new: true, runValidators: true
-    }
-  )
-    .then(response => res.json(response))
-    .catch(error => res.json(error));
+  if (update.bookmark) {
+    Article.findByIdAndUpdate(id,
+      {
+        $inc: { bookmarks: 1 }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => {
+        res.json(response)
+      })
+      .catch(error => {
+        res.json(error)
+      });
+  };
+
+  if (update.article) {
+    Article.findByIdAndUpdate(id,
+      {
+        $set: { article: update }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  };
 });
 
 router.delete("/article/delete", (req, res, next) => {
@@ -122,7 +154,7 @@ router.delete("/article/delete", (req, res, next) => {
   Article.findByIdAndDelete({ _id: id })
     .then(response => res.json(response))
     .catch(error => console.log(error));
-})
+});
 
 router.post("/new-bookmark", (req, res, next) => {
   const { name } = req.body, { id } = req.query;
@@ -168,22 +200,37 @@ router.get("/bookmarks", (req, res, next) => {
     })
     .catch(err => res.json(err));
 
-})
+});
 
 router.put('/update-bookmark', (req, res, next) => {
-  const { name } = req.body, { id } = req.query;
+  const update = { ...req.body }, { id } = req.query;
 
-  Bookmark.findByIdAndUpdate(id,
-    {
-      $set: { name }
-    },
-    {
-      new: true, runValidators: true
-    }
-  )
-    .then(response => res.json(response))
-    .catch(error => res.json(error));
-})
+  if (update.name) {
+    Bookmark.findByIdAndUpdate(id,
+      {
+        $set: { name: update.name }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  }
+
+  if (update.article && update.add) {
+    Bookmark.findByIdAndUpdate(id,
+      {
+        $addToSet: { articles: update.article }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  }
+});
 
 router.delete("/bookmark/delete", (req, res, next) => {
   const { id } = req.query;
@@ -200,6 +247,6 @@ router.delete("/bookmark/delete", (req, res, next) => {
   Bookmark.findByIdAndDelete({ _id: id })
     .then(response => res.json(response))
     .catch(error => console.log(error));
-})
+});
 
 module.exports = router;

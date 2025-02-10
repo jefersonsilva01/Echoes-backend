@@ -10,7 +10,7 @@ const bookmarkSchema = new Schema(
     articles: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Model"
+        ref: "Article"
       }
     ],
     userId: {
