@@ -41,6 +41,28 @@ router.put('/user', (req, res, next) => {
     )
       .then(response => res.json(response))
       .catch(error => res.json(error));
+  } else if (update.addLike) {
+    User.findByIdAndUpdate(id,
+      {
+        $addToSet: { likes: update.addLike }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  } else if (update.removeLike) {
+    User.findByIdAndUpdate(id,
+      {
+        $pull: { likes: update.removeLike }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
   } else {
     User.findByIdAndUpdate(id,
       {
@@ -128,8 +150,6 @@ router.get("/my-articles", (req, res, next) => {
 router.put("/update-article", (req, res, next) => {
   const update = { ...req.body }, { id } = req.query
 
-  console.log(update);
-
   if (update.bookmark) {
     Article.findByIdAndUpdate(id,
       {
@@ -160,6 +180,36 @@ router.put("/update-article", (req, res, next) => {
       .catch(error => {
         res.json(error)
       });
+  } else if (update.like === "add") {
+    Article.findByIdAndUpdate(id,
+      {
+        $inc: { likes: 1 }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => {
+        res.json(response)
+      })
+      .catch(error => {
+        res.json(error)
+      });
+  } else if (update.like === "remove") {
+    Article.findByIdAndUpdate(id,
+      {
+        $inc: { likes: -1 }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => {
+        res.json(response)
+      })
+      .catch(error => {
+        res.json(error)
+      });
   } else {
     Article.findByIdAndUpdate(id,
       {
@@ -172,7 +222,6 @@ router.put("/update-article", (req, res, next) => {
       .then(response => res.json(response))
       .catch(error => res.json(error));
   }
-
 });
 
 router.delete("/article/delete", (req, res, next) => {
@@ -232,8 +281,6 @@ router.get("/bookmarks", (req, res, next) => {
 router.put('/update-bookmark', (req, res, next) => {
   const update = { ...req.body }, { id } = req.query;
 
-  console.log(id, update);
-
   if (update.name) {
     Bookmark.findByIdAndUpdate(id,
       {
@@ -271,7 +318,6 @@ router.put('/update-bookmark', (req, res, next) => {
           }
         )
           .then(response => {
-            console.log(response);
             res.json(response)
           })
           .catch(error => res.json(error));
@@ -282,8 +328,6 @@ router.put('/update-bookmark', (req, res, next) => {
 
 router.delete("/bookmark/delete", (req, res, next) => {
   const { id } = req.query;
-
-  console.log(id);
 
   if (!id) {
     res.status(400).json({
