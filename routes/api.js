@@ -17,10 +17,12 @@ router.put('/user', (req, res, next) => {
     const hashPass = bcrypt.hashSync(update.password, salt);
 
     update.password = hashPass;
+  }
 
+  if (update.bookmarks && update.add) {
     User.findByIdAndUpdate(id,
       {
-        $set: { ...update }
+        $addToSet: { bookmarks: update.bookmarks }
       },
       {
         new: true, runValidators: true
@@ -28,12 +30,21 @@ router.put('/user', (req, res, next) => {
     )
       .then(response => res.json(response))
       .catch(error => res.json(error));
-  }
-
-  if (update.bookmarks && update.add) {
+  } else if (update.bookmarks && update.remove) {
     User.findByIdAndUpdate(id,
       {
-        $addToSet: { bookmarks: update.bookmarks }
+        $pull: { bookmarks: update.bookmarks }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => res.json(response))
+      .catch(error => res.json(error));
+  } else {
+    User.findByIdAndUpdate(id,
+      {
+        $set: { ...update }
       },
       {
         new: true, runValidators: true
@@ -117,6 +128,8 @@ router.get("/my-articles", (req, res, next) => {
 router.put("/update-article", (req, res, next) => {
   const update = { ...req.body }, { id } = req.query
 
+  console.log(update);
+
   if (update.bookmark) {
     Article.findByIdAndUpdate(id,
       {
@@ -132,9 +145,22 @@ router.put("/update-article", (req, res, next) => {
       .catch(error => {
         res.json(error)
       });
-  };
-
-  if (update.article) {
+  } else if (update.unBookmark) {
+    Article.findByIdAndUpdate(id,
+      {
+        $inc: { bookmarks: -1 }
+      },
+      {
+        new: true, runValidators: true
+      }
+    )
+      .then(response => {
+        res.json(response)
+      })
+      .catch(error => {
+        res.json(error)
+      });
+  } else {
     Article.findByIdAndUpdate(id,
       {
         $set: { article: update }
@@ -145,7 +171,8 @@ router.put("/update-article", (req, res, next) => {
     )
       .then(response => res.json(response))
       .catch(error => res.json(error));
-  };
+  }
+
 });
 
 router.delete("/article/delete", (req, res, next) => {
@@ -205,6 +232,8 @@ router.get("/bookmarks", (req, res, next) => {
 router.put('/update-bookmark', (req, res, next) => {
   const update = { ...req.body }, { id } = req.query;
 
+  console.log(id, update);
+
   if (update.name) {
     Bookmark.findByIdAndUpdate(id,
       {
@@ -228,6 +257,25 @@ router.put('/update-bookmark', (req, res, next) => {
       }
     )
       .then(response => res.json(response))
+      .catch(error => res.json(error));
+  } else if (update.article && update.remove) {
+    Bookmark.findOne({ articles: { $in: [update.article] } })
+      .then(response => {
+        const id = response._id;
+        Bookmark.findByIdAndUpdate(id,
+          {
+            $pull: { articles: update.article }
+          },
+          {
+            new: true, runValidators: true
+          }
+        )
+          .then(response => {
+            console.log(response);
+            res.json(response)
+          })
+          .catch(error => res.json(error));
+      })
       .catch(error => res.json(error));
   }
 });
