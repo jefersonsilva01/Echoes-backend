@@ -77,6 +77,35 @@ router.put('/user', (req, res, next) => {
   }
 });
 
+// router.put('/user/bookmark', (req, res, next) => {
+//   const { id } = req.query;
+//   const update = { ...req.body };
+
+//   if (update.bookmarks && update.add) {
+//     User.findByIdAndUpdate(id,
+//       {
+//         $addToSet: { bookmarks: update.bookmarks }
+//       },
+//       {
+//         new: true, runValidators: true
+//       }
+//     )
+//       .then(response => res.json(response))
+//       .catch(error => res.json(error));
+//   } else if (update.removeBookmark) {
+//     User.findByIdAndUpdate(id,
+//       {
+//         $pull: { bookmarks: update.bookmarks }
+//       },
+//       {
+//         new: true, runValidators: true
+//       }
+//     )
+//       .then(response => res.json(response))
+//       .catch(error => res.json(error));
+//   }
+// });
+
 router.post("/upload", uploader.single("image"), (req, res, next) => {
   if (!req.file) {
     next(new Error('No file uploaded!'));
@@ -96,6 +125,8 @@ router.delete("/user/delete", (req, res, next) => {
 
 router.post("/new-article", async (req, res, next) => {
   const article = { ...req.body }, { id } = req.query;
+
+  console.log(article, id);
 
   if (!article.title || !article.description || !article.paragraph) {
     res.status(400).json({
@@ -130,6 +161,18 @@ router.post("/new-article", async (req, res, next) => {
   }
 });
 
+router.get("/all-articles", (req, res, next) => {
+  Article.find()
+    .sort({ likes: -1 })
+    .limit(6)
+    .populate("userId")
+    .exec()
+    .then(articles => {
+      articles.length > 0 ? res.json(articles) : null;
+    })
+    .catch(err => res.json(err));
+})
+
 router.get("/my-articles", (req, res, next) => {
   const { id } = req.query;
 
@@ -141,6 +184,8 @@ router.get("/my-articles", (req, res, next) => {
   }
 
   Article.find({ userId: id })
+    .populate("userId")
+    .exec()
     .then(articles => {
       articles.length > 0 ? res.json(articles) : null;
     })
