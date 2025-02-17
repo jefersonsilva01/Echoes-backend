@@ -171,7 +171,16 @@ router.get("/all-articles", (req, res, next) => {
       articles.length > 0 ? res.json(articles) : null;
     })
     .catch(err => res.json(err));
-})
+});
+
+router.get("/main-article", (req, res, next) => {
+  Article.findOne()
+    .sort({ likes: -1 })
+    .populate("userId")
+    .exec()
+    .then(article => { console.log(article); res.json(article) })
+    .catch(err => res.json(err));
+});
 
 router.get("/my-articles", (req, res, next) => {
   const { id } = req.query;
