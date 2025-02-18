@@ -167,9 +167,7 @@ router.get("/all-articles", (req, res, next) => {
     .limit(6)
     .populate("userId")
     .exec()
-    .then(articles => {
-      articles.length > 0 ? res.json(articles) : null;
-    })
+    .then(articles => { articles.length > 0 ? res.json(articles) : null })
     .catch(err => res.json(err));
 });
 
@@ -178,9 +176,19 @@ router.get("/main-article", (req, res, next) => {
     .sort({ likes: -1 })
     .populate("userId")
     .exec()
-    .then(article => { console.log(article); res.json(article) })
+    .then(article => res.json(article))
     .catch(err => res.json(err));
 });
+
+router.get("/fresh-articles", (req, res, next) => {
+  Article.find()
+    .sort({ createdAt: -1 })
+    .limit(6)
+    .populate("userId")
+    .exec()
+    .then(articles => { articles.length > 0 ? res.json(articles) : null })
+    .catch(err => res.json(err));
+})
 
 router.get("/my-articles", (req, res, next) => {
   const { id } = req.query;
