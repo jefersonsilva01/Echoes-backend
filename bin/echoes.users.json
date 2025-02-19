@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "57ab6942963ac13374727d36"
+  },
+  "bookmarks": [],
+  "likes": [],
+  "googleID": "",
+  "username": "Alice Thompson",
+  "email": "alice.thompson@example.com",
+  "password": "$2a$10$ABC123XYZ456",
+  "imgPath": "",
+  "imgName": "Avatar",
+  "createdAt": {
+    "$date": "2025-02-11T15:14:10.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-19T20:29:51.798Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "47ab6942963ac133f4727536"
+  },
+  "bookmarks": [],
+  "likes": [],
+  "googleID": "",
+  "username": "Michael Lewis",
+  "email": "michael.lewis@example.com",
+  "password": "$2a$10$DEF456UVW789",
+  "imgPath": "",
+  "imgName": "Avatar",
+  "createdAt": {
+    "$date": "2025-02-11T15:14:10.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-19T20:29:51.798Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "37ab6942963ac1337472e536"
+  },
+  "bookmarks": [],
+  "likes": [],
+  "googleID": "",
+  "username": "Kevin Rogers",
+  "email": "kevin.rogers@example.com",
+  "password": "$2a$10$GHI789JKL012",
+  "imgPath": "",
+  "imgName": "Avatar",
+  "createdAt": {
+    "$date": "2025-02-11T15:14:10.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-02-19T20:29:51.798Z"
+  },
+  "__v": 0
+}]

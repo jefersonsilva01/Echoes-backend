@@ -1,59 +1,99 @@
 const articles = [
   {
-    "userId": "67ab6942963ac13374727536",
-    "article": {
-      "username": "J. S.",
-      "title": "The Rise of Artificial Intelligence",
-      "paragraph": "Artificial Intelligence (AI) is reshaping industries by automating processes, increasing efficiency, and enabling advanced data analysis...",
-      "subtitle-0": "Ethical Challenges and Workforce Impact",
-      "new-paragraph-1": "Despite its advantages, AI presents ethical and societal challenges...",
-      "subtitle-2": "The Future of AI and Human Collaboration",
-      "new-paragraph-3": "AI is not just about replacing human labor but also about enhancing human capabilities...",
-      "description": "Artificial Intelligence (AI) enables machines to learn, reason, and make decisions...",
-      "cover": "https://fastly.picsum.photos/id/357/766/638.jpg?hmac=fXNrUKVf_2Ohu9S-ZwPAzQ7BBDvsHZgrjCF-yIgGy6c"
+    "userId": "57ab6942963ac13374727d36",
+    'article': {
+      'username': 'Alice Thompson',
+      'title': 'The Rise of Electric Vehicles',
+      'description': 'Electric vehicles (EVs) are rapidly transforming the automotive industry, offering a cleaner and more sustainable alternative to traditional gasoline-powered cars.',
+      'paragraph': 'With advancements in battery technology and government incentives, EV adoption is accelerating worldwide. As infrastructure improves and costs decrease, electric cars are becoming a viable option for more consumers.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740003046/echoes/Image_cover-2_mc57gl.png',
+      'subtitle-0': 'The Environmental Benefits of EVs',
+      'new-paragraph-1': 'One of the biggest advantages of EVs is their reduced carbon footprint. Unlike conventional cars, they produce zero tailpipe emissions, helping to decrease air pollution and combat climate change.',
+      'subtitle-2': 'The Expansion of Charging Networks',
+      'new-paragraph-3': 'A crucial factor in EV adoption is the availability of charging stations. Governments and private companies are investing in expanding charging networks to support long-distance travel and everyday use.',
+      'subtitle-4': 'Challenges and the Future of EVs',
+      'new-paragraph-5': 'Despite their benefits, EVs still face challenges such as battery production sustainability and charging time. However, continuous innovation and policy support are driving solutions for a greener future.'
     }
   },
   {
-    "userId": "67ab6942963ac13374727536",
-    "article": {
-      "username": "M. T.",
-      "title": "Climate Change: A Global Challenge",
-      "paragraph": "Climate change is one of the most pressing issues of our time...",
-      "subtitle-0": "Causes and Consequences",
-      "new-paragraph-1": "Rising greenhouse gas emissions have led to extreme weather events, rising sea levels, and biodiversity loss...",
-      "subtitle-2": "Solutions and Innovations",
-      "new-paragraph-3": "Efforts such as renewable energy adoption, carbon capture technology, and sustainable practices are crucial to mitigating climate change...",
-      "description": "Climate change impacts ecosystems, economies, and human lives. Innovative solutions and global cooperation are key to combating this crisis.",
-      "cover": "https://fastly.picsum.photos/id/203/766/638.jpg?hmac=ZXhNRXh5GJ3JDZ4x3U9hDk1cA"
+    "userId": "57ab6942963ac13374727d36",
+    'article': {
+      'username': 'Alice Thompson',
+      'title': 'Climate Change and Its Global Impact',
+      'description': 'Climate change is one of the most pressing issues of our time, affecting ecosystems, economies, and communities worldwide.',
+      'paragraph': 'Rising global temperatures, extreme weather events, and melting ice caps are clear indicators of climate change. Scientists warn that immediate action is needed to mitigate its worst effects.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740003047/echoes/Image_cover-3_f6h7pm.png',
+      'subtitle-0': 'The Role of Human Activities',
+      'new-paragraph-1': 'The burning of fossil fuels, deforestation, and industrial activities have significantly contributed to the increase in greenhouse gas emissions, leading to climate imbalances.',
+      'subtitle-2': 'Impact on Biodiversity',
+      'new-paragraph-3': 'Climate change is disrupting habitats and threatening countless species with extinction. Changes in temperature and weather patterns are making survival difficult for many forms of wildlife.',
+      'subtitle-4': 'Solutions and Global Efforts',
+      'new-paragraph-5': 'Governments and organizations are working towards reducing emissions through renewable energy, conservation efforts, and policy changes. Public awareness and action are crucial for a sustainable future.'
     }
   },
   {
-    "userId": "67ab6942963ac13374727536",
-    "article": {
-      "username": "A. R.",
-      "title": "The Future of Electric Vehicles",
-      "paragraph": "Electric vehicles (EVs) are transforming the automotive industry...",
-      "subtitle-0": "Environmental and Economic Benefits",
-      "new-paragraph-1": "EVs produce zero emissions and are more energy-efficient than traditional gasoline-powered cars...",
-      "subtitle-2": "Challenges and Innovations",
-      "new-paragraph-3": "Despite advancements, EVs face challenges such as battery efficiency, charging infrastructure, and high initial costs...",
-      "description": "Electric vehicles represent a cleaner, more efficient future for transportation, driven by advancements in battery technology and infrastructure.",
-      "cover": "https://fastly.picsum.photos/id/1061/766/638.jpg?hmac=y2QwDmfQmV"
-    }
+    "userId": "47ab6942963ac133f4727536",
+    'article': {
+      'username': 'Michael Lewis',
+      'title': 'Artificial Intelligence in Business',
+      'description': 'AI is revolutionizing the business world, streamlining operations, enhancing decision-making, and improving customer experiences.',
+      'paragraph': 'From chatbots to data analytics, AI tools are helping companies optimize efficiency and drive innovation. Businesses that embrace AI gain a competitive edge in the digital economy.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740003046/echoes/Image_cover-1_xopifo.png',
+      'subtitle-0': 'AI in Customer Service',
+      'new-paragraph-1': 'Companies are using AI-powered chatbots and virtual assistants to provide instant support, reducing wait times and improving customer satisfaction.',
+      'subtitle-2': 'AI for Data-Driven Decisions',
+      'new-paragraph-3': 'AI algorithms analyze vast amounts of data to uncover patterns and trends, allowing businesses to make more informed and strategic decisions.',
+      'subtitle-4': 'The Future of AI in Business',
+      'new-paragraph-5': 'As AI technology advances, its applications in business will continue to grow, driving automation and personalization across industries.'
+    },
   },
   {
-    "userId": "67ab6942963ac13374727536",
-    "article": {
-      "username": "L. K.",
-      "title": "Renewable Energy: The Path Forward",
-      "paragraph": "Renewable energy sources like solar, wind, and hydro are essential for a sustainable future...",
-      "subtitle-0": "Types of Renewable Energy",
-      "new-paragraph-1": "Solar panels, wind turbines, and hydropower plants generate electricity with minimal environmental impact...",
-      "subtitle-2": "Challenges and Innovations",
-      "new-paragraph-3": "Improving energy storage and grid integration are key challenges for wider renewable energy adoption...",
-      "description": "Renewable energy is vital for reducing dependence on fossil fuels and combating climate change, driving innovation in energy storage and efficiency.",
-      "cover": "https://fastly.picsum.photos/id/1051/766/638.jpg?hmac=9vHdPshFq"
-    }
+    "userId": "47ab6942963ac133f4727536",
+    'article': {
+      'username': 'Michael Lewis',
+      'title': 'The Challenges of Renewable Energy',
+      'description': 'Renewable energy sources such as wind and solar are crucial for reducing dependence on fossil fuels, but they also present challenges that need to be addressed.',
+      'paragraph': 'While renewable energy is key to a sustainable future, issues like storage, cost, and infrastructure must be tackled for a smooth transition.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740003045/echoes/Image_cover_vplbdo.png',
+      'subtitle-0': 'Intermittency and Energy Storage',
+      'new-paragraph-1': 'Unlike fossil fuels, solar and wind power depend on weather conditions. Advancements in battery technology are essential for storing excess energy for use when needed.',
+      'subtitle-2': 'Economic and Policy Challenges',
+      'new-paragraph-3': 'High initial costs and the need for supportive policies can slow down the adoption of renewable energy. Government incentives and investments play a crucial role in its growth.',
+      'subtitle-4': 'Future Innovations in Renewable Energy',
+      'new-paragraph-5': 'Researchers are developing new technologies such as more efficient solar panels and smart grids to improve the reliability and efficiency of renewable energy systems.'
+    },
+  },
+  {
+    "userId": "37ab6942963ac1337472e536",
+    'article': {
+      'username': 'Kevin Rogers',
+      'title': 'The Role of AI in Climate Change Solutions',
+      'description': 'Artificial intelligence is being used as a powerful tool to combat climate change by optimizing energy use, predicting weather patterns, and improving sustainability efforts.',
+      'paragraph': 'AI-driven solutions are helping scientists and policymakers develop more effective strategies to reduce carbon emissions and protect the environment.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740002714/echoes/Image_cover_lofxu5.png',
+      'subtitle-0': 'AI for Climate Prediction',
+      'new-paragraph-1': 'Machine learning models analyze historical weather data to predict future climate trends, helping governments and industries prepare for extreme weather events.',
+      'subtitle-2': 'AI in Energy Efficiency',
+      'new-paragraph-3': 'AI optimizes energy consumption in buildings, factories, and cities by analyzing usage patterns and suggesting improvements, leading to significant reductions in energy waste.',
+      'subtitle-4': 'AI and Carbon Capture',
+      'new-paragraph-5': 'New AI technologies are being developed to enhance carbon capture and storage methods, making them more efficient and cost-effective in reducing greenhouse gas emissions.'
+    },
+  },
+  {
+    "userId": "37ab6942963ac1337472e536",
+    'article': {
+      'username': 'Kevin Rogers',
+      'title': 'Electric Vehicles and the Future of Transportation',
+      'description': 'Electric vehicles are not just a trend; they represent the future of sustainable transportation, reducing reliance on fossil fuels and lowering emissions.',
+      'paragraph': 'With growing investments from automakers and government incentives, EV adoption is expected to skyrocket in the coming decades, transforming urban mobility.',
+      'cover': 'https://res.cloudinary.com/dm9ezmpgm/image/upload/v1740002714/echoes/Image_cover-2_tacsi6.png',
+      'subtitle-0': 'Advancements in EV Battery Technology',
+      'new-paragraph-1': 'Modern lithium-ion batteries are becoming more efficient and longer-lasting, improving the range and performance of electric vehicles.',
+      'subtitle-2': 'The Role of Governments in EV Adoption',
+      'new-paragraph-3': 'Many countries are introducing incentives such as tax breaks and subsidies to encourage consumers to switch to electric vehicles and reduce their carbon footprint.',
+      'subtitle-4': 'Autonomous Driving and EVs',
+      'new-paragraph-4': 'The integration of AI and electric vehicles is paving the way for self-driving cars, which promise to make transportation safer, more efficient, and eco-friendly.'
+    },
   }
 ];
 
