@@ -183,11 +183,24 @@ router.get("/main-article", (req, res, next) => {
 router.get("/fresh-articles", (req, res, next) => {
   Article.find()
     .sort({ createdAt: -1 })
-    .limit(6)
+    .limit(3)
     .populate("userId")
     .exec()
     .then(articles => { articles.length > 0 ? res.json(articles) : null })
     .catch(err => res.json(err));
+})
+
+router.get("/search-articles", (req, res, next) => {
+  const { search } = req.query
+
+  Article.find({ 'article.title': { $regex: search, $options: "i" } })
+    .populate("userId")
+    .exec()
+    .then(articles => articles.length > 0 ? res.json(articles) : null)
+    .catch(err => {
+      console.log(err)
+      return res.json(err)
+    });
 })
 
 router.get("/my-articles", (req, res, next) => {
