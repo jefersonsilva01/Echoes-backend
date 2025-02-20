@@ -9,7 +9,9 @@ const cors = require("cors");
 
 const allowedOrigins = [
   "https://echoes-frontend-ten.vercel.app",
+  "http://echoes-frontend-ten.vercel.app",
   "https://echoes-frontend-git-main-jeferson-silvas-projects-069690ac.vercel.app",
+  "http://echoes-frontend-git-main-jeferson-silvas-projects-069690ac.vercel.app",
   "http://localhost:3000"
 ]
 
@@ -24,22 +26,22 @@ module.exports = (app) => {
     next();
   });
 
-  app.use(cors());
+  // app.use(cors());
 
-  // app.use(
-  //   cors({
-  //     credentials: true,
-  //     // origin: [FRONTEND_URL]
-  //     // origin: allowedOrigins
-  //     origin: function (origin, callback) {
-  //       if (!origin || allowedOrigins.includes(origin)) {
-  //         callback(null, true);
-  //       } else {
-  //         callback(new Error("Not allowed by CORS"));
-  //       }
-  //     },
-  //   })
-  // );
+  app.use(
+    cors({
+      credentials: true,
+      // origin: [FRONTEND_URL]
+      // origin: allowedOrigins
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+    })
+  );
 
   app.use(
     session({

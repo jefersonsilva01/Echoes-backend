@@ -119,8 +119,8 @@ router.get("/verify", (req, res, next) => {
 });
 
 router.get("/signout", (req, res, next) => {
-  req.session.destroy(err => { if (err) { res.status(500) } });
   req.logout(err => { if (err) return next(err) });
+  req.session.destroy(err => { if (err) { res.status(500) } });
   res.status(200).json({ message: 'Log out succes!' });
 });
 
