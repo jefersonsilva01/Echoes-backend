@@ -19,6 +19,8 @@
   - [Como rodar o projeto](#como-rodar-o-projeto)
   - [Licença](#licença)
 
+</details>
+
 ## Sobre o projeto
 
 O Echoes é uma plataforma de publicação de artigos inspirada no Medium, oferecendo um ambiente intuitivo e dinâmico para escritores compartilharem suas ideias e leitores explorarem conteúdos de qualidade. Com um design minimalista e funcionalidades avançadas, o Echoes permite a criação, edição e formatação de textos de forma fluida, além de proporcionar interações por meio de curtidas. A plataforma também inclui um sistema de recomendação inteligente, conectando os usuários a conteúdos relevantes com base em seus interesses. Desenvolvido com tecnologias modernas, o Echoes busca democratizar a escrita e promover a disseminação de conhecimento.
