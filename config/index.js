@@ -20,7 +20,14 @@ module.exports = (app) => {
     cors({
       credentials: true,
       // origin: [FRONTEND_URL]
-      origin: allowedOrigins
+      // origin: allowedOrigins
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
     })
   );
 
