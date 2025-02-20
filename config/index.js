@@ -52,8 +52,7 @@ module.exports = (app) => {
         mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/echoes",
       }),
       cookie: {
-        secure: false,
-        // secure: false,
+        secure: true,
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000
       }
