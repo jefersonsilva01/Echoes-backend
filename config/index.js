@@ -20,23 +20,26 @@ module.exports = (app) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
   });
 
-  app.use(
-    cors({
-      credentials: true,
-      // origin: [FRONTEND_URL]
-      // origin: allowedOrigins
-      origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
-    })
-  );
+  app.use(cors());
+
+  // app.use(
+  //   cors({
+  //     credentials: true,
+  //     // origin: [FRONTEND_URL]
+  //     // origin: allowedOrigins
+  //     origin: function (origin, callback) {
+  //       if (!origin || allowedOrigins.includes(origin)) {
+  //         callback(null, true);
+  //       } else {
+  //         callback(new Error("Not allowed by CORS"));
+  //       }
+  //     },
+  //   })
+  // );
 
   app.use(
     session({
