@@ -18,13 +18,13 @@ const allowedOrigins = [
 module.exports = (app) => {
   app.set("trust proxy", 1);
 
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-  });
+  // app.use((req, res, next) => {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  //   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  //   res.header("Access-Control-Allow-Credentials", "true");
+  //   next();
+  // });
 
   // app.use(cors());
 
@@ -52,7 +52,7 @@ module.exports = (app) => {
         mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/echoes",
       }),
       cookie: {
-        secure: true,
+        secure: false,
         // secure: false,
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000
