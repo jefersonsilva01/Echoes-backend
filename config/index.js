@@ -1,13 +1,17 @@
 require("dotenv").config();
-
-const express = require("express");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
+// const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
+
+const allowedOrigins = [
+  "https://echoes-frontend-ten.vercel.app",
+  "https://echoes-frontend-git-main-jeferson-silvas-projects-069690ac.vercel.app",
+  "http://localhost:3000"
+]
 
 module.exports = (app) => {
   app.set("trust proxy", 1);
@@ -15,7 +19,8 @@ module.exports = (app) => {
   app.use(
     cors({
       credentials: true,
-      origin: [FRONTEND_URL]
+      // origin: [FRONTEND_URL]
+      origin: allowedOrigins
     })
   );
 
