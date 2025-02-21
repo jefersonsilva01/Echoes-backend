@@ -119,7 +119,7 @@ router.get("/verify", (req, res, next) => {
 });
 
 router.get("/signout", (req, res, next) => {
-  req.logout(err => { if (err) return next(err) });
+  // req.logout(err => { if (err) return next(err) });
   req.session.destroy(err => { if (err) { res.status(500) } });
   res.status(200).json({ message: 'Log out succes!' });
 });
@@ -135,12 +135,15 @@ router.get("/google/callback", isLoggedOut,
   passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
     if (req.user) {
-      req.session.currentUser = req.user.toObject();
-      res.redirect(`${process.env.ORIGIN}?user=${JSON.stringify(req.user)}`);
+      const newUser = req.user.toObject()
+      delete newUser.password;
+
+      req.session.currentUser = newUser;
+      res.redirect(`${process.env.ORIGIN}?user=${JSON.stringify(newUser)}`);
     } else {
       res.redirect("/signin")
     }
   }
 );
 
-module.exports = router;  
+module.exports = router;
